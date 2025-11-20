@@ -24,9 +24,9 @@ def get_mongo_database():
     return client[settings.MONGODB_DB]
 
 
-def get_attendance_collection():
+def get_stories_collection():
     db = get_mongo_database()
-    return db["attendance"]
+    return db["stories"]
 
 
 async def close_mongo_client():
