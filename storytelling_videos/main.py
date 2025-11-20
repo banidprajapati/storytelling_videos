@@ -6,19 +6,22 @@ from fastapi import FastAPI
 from storytelling_videos.core.config_core import settings
 from storytelling_videos.core.loggings import get_logger
 from storytelling_videos.core.mongodb_core import close_mongo_client, get_mongo_client
+from storytelling_videos.core.openrouter_core import close_openrouter_client
+from storytelling_videos.routers._base import router
 
 logger = get_logger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting Vertex Face Attendance API.")
+    logger.info("Starting StoryTelling Videos API.")
     # Startup phase
     get_mongo_client()
 
     yield
 
     await close_mongo_client()
+    await close_openrouter_client()
 
 
 app = FastAPI(
@@ -28,4 +31,4 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(api_router)
+app.include_router(router)
