@@ -11,7 +11,9 @@ class Settings(BaseSettings):
 
     # Core App Info
     PROJECT_NAME: str = Field(default="StoryTelling", description="Project name")
-    ENVIRONMENT: str = Field(default="dev", description="App environment: dev | qa | staging | production")
+    ENVIRONMENT: str = Field(
+        default="dev", description="App environment: dev | qa | staging | production"
+    )
     DEBUG: bool = Field(default=False, description="Enable debug mode for development")
 
     # Database
@@ -22,7 +24,10 @@ class Settings(BaseSettings):
     OPENROUTER_API: str = Field(..., description="OpenRouter API String")
 
     # --- Logging / Monitoring ---
-    LOG_LEVEL: str = Field(default="INFO", description="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)")
+    LOG_LEVEL: str = Field(
+        default="INFO",
+        description="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+    )
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -42,5 +47,6 @@ class Settings(BaseSettings):
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     return Settings()
+
 
 settings = get_settings()
