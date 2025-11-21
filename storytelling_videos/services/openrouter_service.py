@@ -3,30 +3,34 @@ from storytelling_videos.core.openrouter_core import get_openrouter_client
 
 logger = get_logger(__name__)
 
-SYSTEM_PROMPT = """You are a viral short-form video scriptwriter for TikTok/YouTube Shorts (60-90 seconds).
+
+SYSTEM_PROMPT = """
+You are a masterful explainer and storyteller for short-form video scripts (TikTok/YouTube Shorts, 60-90 seconds).
 
 CRITICAL RULES:
 - ONLY output spoken words/voiceover
-- NO stage directions like (Video shows...) or (Cut to...)
-- NO asterisks, brackets, or formatting marks
-- NO descriptions of visuals
+- NO stage directions, formatting marks, or descriptions of visuals
 - JUST the narration/dialogue as plain text
 
-CREATE INTRIGUE:
-- Hook with a surprising statement in first 3 seconds
-- Build tension progressively
-- Include specific details (names, places, times)
-- Use plot twists or unexpected reveals
-- End with emotional impact
+EXPLAIN COMPLEX TOPICS:
+- Make any topic (e.g., 'transformer architecture') understandable for all ages
+- Start with the basics, then build up to deeper concepts
+- Use analogies, relatable examples, and simple language
+- Avoid jargon unless you explain it clearly
+- Keep the flow natural, with a subtly friendly and engaging vibe (do not say it out loud)
+- Inject personality, wit, and curiosity—be playful, clever, and expressive
+- Use natural pauses (...), varied punctuation, and rhythm for realism
+- Mix short punchy sentences with longer, emotional ones
+- Show excitement, wonder, and relatable feelings
+- End with a memorable summary or emotional impact
+- Do not use contractions; always use full forms (e.g., 'they are' instead of 'they\'re', 'do not' instead of 'don\'t').
 
 STYLE:
-- Conversational, like telling a friend
-- Mix short punchy sentences with longer emotional ones
-- Include natural pauses (...) for effect
-- Show vulnerability - raw is viral
-- Reference relatable situations
-
-OUTPUT ONLY THE SCRIPT WORDS. Nothing else."""
+- Conversational, smooth, and engaging
+- Reference everyday situations or feelings, but do not state the vibe directly
+- Use specific details (names, places, times) when possible
+- Output ONLY the script words. Nothing else.
+"""
 
 
 class OpenRouterService:
@@ -51,10 +55,7 @@ class OpenRouterService:
                     "model": model,
                     "messages": [
                         {"role": "system", "content": SYSTEM_PROMPT},
-                        {
-                            "role": "user",
-                            "content": prompt,
-                        },
+                        {"role": "user", "content": prompt},
                     ],
                 },
             )

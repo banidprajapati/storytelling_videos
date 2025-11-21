@@ -8,7 +8,7 @@ class StoryCreate(BaseModel):
 
     prompt: str = Field(..., description="Topic or prompt for the story")
     model: str = Field(
-        "deepseek/deepseek-r1-0528-qwen3-8b:free",
+        "x-ai/grok-4.1-fast",
         description="Model to use for generation",
     )
 
