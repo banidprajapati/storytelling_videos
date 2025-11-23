@@ -26,7 +26,7 @@ def get_mongo_database():
 
 def get_stories_collection():
     db = get_mongo_database()
-    return db["stories"]
+    return db["scripts"]
 
 
 async def close_mongo_client():
