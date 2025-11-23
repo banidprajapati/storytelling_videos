@@ -5,4 +5,8 @@ __pycache__/
 
 logs/*.log
 saved_audio_kokoro/*
+stock_videos/*
+output/*
+
+get-pip.py
 
