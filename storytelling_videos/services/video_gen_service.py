@@ -80,26 +80,6 @@ class VideoGeneration:
         final_video = video_clip.set_audio(audio_clip)
         return final_video
 
-    def add_subtitles(self, video_clip):
-        """Add subtitles to video from SRT file using ffmpeg
-
-        Args:
-            video_clip: The video clip to add subtitles to
-
-        Returns:
-            Video clip (subtitles are burned during export)
-        """
-        if self.srt_path.exists():
-            print(f"Adding subtitles from: {self.srt_path}")
-        else:
-            print(
-                f"Warning: SRT file not found at {self.srt_path}. Skipping subtitles."
-            )
-            self.srt_path = None
-
-        # Subtitles will be burned during export using ffmpeg
-        return video_clip
-
     def export_video(self, video_clip, codec="libx264", audio_codec="aac"):
         """Export final video to file with exact TikTok dimensions (1080x1920) and subtitles"""
         # Build ffmpeg parameters for scaling
@@ -153,9 +133,6 @@ class VideoGeneration:
 
         # Combine audio and video
         final_video = self.combine_audio_and_video(video_clip=video, audio_clip=audio)
-
-        # Add subtitles
-        final_video = self.add_subtitles(final_video)
 
         # Export
         self.export_video(final_video)
