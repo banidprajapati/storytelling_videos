@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     # OpenRouter
     OPENROUTER_API: str = Field(..., description="OpenRouter API String")
 
+    CLIENT_ID: str = Field(..., description="reddit client id")
+    CLIENT_SECRET: str = Field(..., description="reddit client secret")
+    USER_AGENT: str = Field(..., description="reddit user agent")
+
     # --- Logging / Monitoring ---
     LOG_LEVEL: str = Field(
         default="INFO",
