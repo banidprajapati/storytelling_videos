@@ -5,6 +5,8 @@ Service for generating word-level subtitles using OpenAI Whisper
 from pathlib import Path
 from typing import Optional
 
+import whisper
+
 
 class WhisperSubtitleGenerator:
     """Generate word-level SRT subtitles from audio using Whisper"""
@@ -16,14 +18,6 @@ class WhisperSubtitleGenerator:
         Args:
             audio_path: Path to audio file
         """
-        try:
-            import whisper
-        except ImportError:
-            raise ImportError(
-                "whisper is not installed. Install with: pip install openai-whisper"
-            )
-
-        self.whisper = whisper
         self.audio_path = str(audio_path)
         self.model = None
 
@@ -37,14 +31,10 @@ class WhisperSubtitleGenerator:
         Returns:
             Transcription result with word-level timestamps
         """
-        print(f"Loading Whisper model: {model_name}")
-        self.model = self.whisper.load_model(model_name)
-
-        print(f"Transcribing audio: {self.audio_path}")
+        self.model = whisper.load_model(model_name)
         result: dict = self.model.transcribe(
             self.audio_path, language="en", verbose=False
         )
-
         return result
 
     @staticmethod
@@ -121,17 +111,14 @@ class WhisperSubtitleGenerator:
         with open(output_file, "w", encoding="utf-8") as f:
             f.write("\n".join(srt_content))
 
-        print(f"Word-level SRT file generated: {output_path}")
         return output_path
 
 
 if __name__ == "__main__":
-    # Test script
     script_uuid = "be7036b5-075e-4d9a-96f0-7a52d6dca906"
     parent_dir = Path.cwd()
     audio_path = parent_dir / "saved_audio_kokoro" / script_uuid / "final.wav"
     output_srt = parent_dir / "saved_audio_kokoro" / script_uuid / "final_words.srt"
 
     generator = WhisperSubtitleGenerator(str(audio_path))
-    srt_path = generator.generate_word_level_srt(str(output_srt), model_name="tiny")
-    print(f"Generated SRT at: {srt_path}")
+    generator.generate_word_level_srt(str(output_srt), model_name="tiny")
