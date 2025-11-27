@@ -10,12 +10,16 @@ class VideoGeneration:
 
         parent_dir = Path.cwd()
         self.audio_path = (
-            parent_dir / "saved_audio_kokoro" / self.script_uuid / "final.wav"
+            parent_dir
+            / "saved_audio_kokoro"
+            / self.script_uuid
+            / "full_script_audio.wav"
         )
+        print(self.audio_path)
         self.output_path = parent_dir / "output" / f"{self.script_uuid}.mp4"
         self.stock_videos_dir = parent_dir / "stock_videos"
         self.srt_path = (
-            parent_dir / "saved_audio_kokoro" / self.script_uuid / "final_words.srt"
+            parent_dir / "saved_audio_kokoro" / self.script_uuid / "final_sub_words.srt"
         )
         # ensure the output directory exists (create parent directory of the file)
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -144,7 +148,7 @@ class VideoGeneration:
 
 
 if __name__ == "__main__":
-    generation = VideoGeneration(script_uuid="be7036b5-075e-4d9a-96f0-7a52d6dca906")
+    generation = VideoGeneration(script_uuid="8a6cf329-bcb3-4b51-9a92-616a9924e8be")
 
     # Generate final video (will randomly select stock video and random start point)
     generation.generate()
