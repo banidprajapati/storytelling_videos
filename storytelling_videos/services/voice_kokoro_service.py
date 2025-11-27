@@ -36,6 +36,7 @@ class KokoroVoice:
     def save_audio(self, uuid: str, generator):
         output_dir = Path.cwd() / "saved_audio_kokoro" / uuid
         output_dir.mkdir(exist_ok=True)
+        output_path = output_dir / "full_script_audio.wav"
 
         full_audio = []
 
@@ -43,4 +44,5 @@ class KokoroVoice:
             full_audio.append(audio)
 
         merged = np.concatenate(full_audio)
-        sf.write(str(output_dir / "final.wav"), merged, 24000)
+        sf.write(str(output_path), merged, 24000)
+        return output_path
