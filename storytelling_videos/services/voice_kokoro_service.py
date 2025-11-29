@@ -11,6 +11,7 @@ logger = get_logger(__name__)
 
 class KokoroVoice:
     _pipeline = None  # Class variable for lazy initialization
+    _device = None
 
     def __init__(
         self,
@@ -27,11 +28,27 @@ class KokoroVoice:
         self.output_dir = Path.cwd() / "saved_audio_kokoro" / script_uuid
         self.output_dir.mkdir(exist_ok=True, parents=True)
         self.output_path = self.output_dir / "full_script_audio.wav"
+        self.device = self._get_device()
+
+    @staticmethod
+    def _get_device():
+        """Determine best device (cuda or cpu)"""
+        if KokoroVoice._device is None:
+            if torch.cuda.is_available():
+                logger.info("CUDA available - using GPU for TTS")
+                KokoroVoice._device = "cuda"
+            else:
+                logger.warning("CUDA not available - using CPU for TTS")
+                KokoroVoice._device = "cpu"
+        print(KokoroVoice._device)
+        return KokoroVoice._device
 
     def get_pipeline(self):
         # lazy initialize a single shared pipeline for the class
         if KokoroVoice._pipeline is None:
-            KokoroVoice._pipeline = KPipeline(lang_code=self.lang_code)
+            KokoroVoice._pipeline = KPipeline(
+                lang_code=self.lang_code, device=self.device
+            )
         return KokoroVoice._pipeline
 
     def synthesize(self):
