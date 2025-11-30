@@ -19,6 +19,7 @@ dependencies = [
     "pymongo>=4.15.4",
     "soundfile>=0.13.1",
     "uvicorn>=0.38.0",
+    "ffmpeg-python>=0.2.0",
 ]
 
 [tool.ruff]

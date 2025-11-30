@@ -3,6 +3,10 @@ from pathlib import Path
 
 from moviepy.editor import AudioFileClip, VideoFileClip
 
+from storytelling_videos.core.loggings import get_logger
+
+logger = get_logger(__name__)
+
 
 class VideoGeneration:
     def __init__(self, script_uuid: str):
@@ -15,11 +19,10 @@ class VideoGeneration:
             / self.script_uuid
             / "full_script_audio.wav"
         )
-        print(self.audio_path)
         self.output_path = parent_dir / "output" / f"{self.script_uuid}.mp4"
         self.stock_videos_dir = parent_dir / "stock_videos"
         self.srt_path = (
-            parent_dir / "saved_audio_kokoro" / self.script_uuid / "final_sub_words.srt"
+            parent_dir / "saved_audio_kokoro" / self.script_uuid / "full_sub_words.srt"
         )
         # ensure the output directory exists (create parent directory of the file)
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -102,9 +105,9 @@ class VideoGeneration:
             ffmpeg_params = [
                 "-vf",
                 f"scale=1080:1920,subtitles='{srt_escaped}':force_style="
-                "'FontName=Arial,FontSize=8,PrimaryColour=&H00FFFFFF&,OutlineColour=&H00000000&,OutlineWidth=0.5,Alignment=10,MarginL=0,MarginR=0,MarginV=0'",
+                "'FontName=Arial,FontSize=14,PrimaryColour=&H00FFFFFF&,OutlineColour=&H00000000&,OutlineWidth=0.5,Alignment=10,MarginL=0,MarginR=0,MarginV=0'",
             ]
-            print(f"Burning subtitles from: {self.srt_path}")
+            logger.info(f"Burning subtitles from: {self.srt_path}")
 
         # Use ffmpeg parameters to scale to exact dimensions and add subtitles
         video_clip.write_videofile(
@@ -130,7 +133,7 @@ class VideoGeneration:
                     f"No stock videos found in {self.stock_videos_dir}"
                 )
             stock_video_path = str(random.choice(stock_videos))
-            print(f"Using stock video: {stock_video_path}")
+            logger.info(f"Using stock video: {stock_video_path}")
 
         # Get and trim stock video with specified parameters
         video = self.get_stock_video_and_cut_to_length(stock_video_path, audio_length)
@@ -152,4 +155,4 @@ if __name__ == "__main__":
 
     # Generate final video (will randomly select stock video and random start point)
     generation.generate()
-    print(f"Video generated successfully at: {generation.output_path}")
+    logger.info(f"Video generated successfully at: {generation.output_path}")
