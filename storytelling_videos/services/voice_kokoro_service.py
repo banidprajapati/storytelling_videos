@@ -40,7 +40,6 @@ class KokoroVoice:
             else:
                 logger.warning("CUDA not available - using CPU for TTS")
                 KokoroVoice._device = "cpu"
-        print(KokoroVoice._device)
         return KokoroVoice._device
 
     def get_pipeline(self):
