@@ -135,5 +135,5 @@ class WhisperXSubtitleGenerator:
         with open(output_file, "w", encoding="utf-8") as f:
             f.write("\n".join(srt_content))
 
-        print(f"SRT file saved to: {self.output_srt_path}")
+        logger.info(f"SRT file saved to: {self.output_srt_path}")
         return self.output_srt_path
