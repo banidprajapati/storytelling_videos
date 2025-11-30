@@ -49,13 +49,14 @@ class VideoPipeline:
             # Process and generate TTS
             script_processed = add_pauses(self.script_content)
             kokoro = KokoroVoice(
+                script_uuid=self.script_uuid,
                 text=script_processed,
                 voice=voice,
                 lang_code="a",
                 speed=speed,
             )
             generator = kokoro.synthesize()
-            audio_path = kokoro.save_audio(uuid=self.script_uuid, generator=generator)
+            audio_path = kokoro.save_audio(generator=generator)
 
             # Generate subtitles
             logger.info("[Pipeline] Step 2/3: Generating SRT subtitles")

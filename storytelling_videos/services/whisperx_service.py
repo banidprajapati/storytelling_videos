@@ -36,8 +36,8 @@ class WhisperXSubtitleGenerator:
         self.model_name = model_name
         self.output_srt_path = output_srt_path
         # Try CUDA first, fall back to CPU if unavailable
-        self.device = "cpu"  # Use CPU to avoid CUDA/cuDNN compatibility issues
-        self.compute_type = "int8"  # Use int8 for CPU compatibility
+        self.device = "cpu"
+        self.compute_type = "int8"
         self._load_models()
 
     def _load_models(self):
@@ -92,13 +92,17 @@ class WhisperXSubtitleGenerator:
         """
         Generate word-level SRT file from audio
 
-        Args:
-            output_path: Path to save SRT file. If None, saves next to audio file.
-
         Returns:
             Path to generated SRT file
         """
-        # Transcribe with word-level timestamps
+        output_file = Path(self.output_srt_path)
+
+        # Skip if SRT already exists
+        if output_file.exists():
+            logger.info(f"SRT file already exists: {self.output_srt_path}")
+            return output_file
+
+        logger.info("Transcribing audio with WhisperX...")
         result = self.transcribe()
 
         # Extract word-level timing from segments
@@ -131,5 +135,5 @@ class WhisperXSubtitleGenerator:
         with open(output_file, "w", encoding="utf-8") as f:
             f.write("\n".join(srt_content))
 
-        print(f"SRT file saved to: {self.output_srt_path}")
+        logger.info(f"SRT file saved to: {self.output_srt_path}")
         return self.output_srt_path

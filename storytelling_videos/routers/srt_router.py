@@ -26,8 +26,6 @@ async def generate_srt(script_uuid: str, model_name: str = "tiny") -> dict:
         )
         srt_path = subtitle_generator.generate_word_level_srt()
 
-        logger.info(f"SRT subtitles generated successfully at: {srt_path}")
-
         return {
             "status": "success",
             "script_uuid": script_uuid,

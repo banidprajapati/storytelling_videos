@@ -12,11 +12,11 @@ The project is designed for full automation—no manual voice recording or editi
 - **REST API:** Endpoints for generating, retrieving, and listing stories.
 - **Logging:** Colorful console and file logging for easy debugging.
 - **Configurable:** Environment-based settings via `.env` and Pydantic.
+- **Voice Synthesis:** Automatically generate voiceovers from scripts.
+- **Video Assembly:** Combine voiceovers with visuals for fully automated video creation.
 
 ## Planned Automation
 
-- **Voice Synthesis:** Automatically generate voiceovers from scripts.
-- **Video Assembly:** Combine voiceovers with visuals for fully automated video creation.
 - **Publishing:** (Future) Direct upload to TikTok/YouTube Shorts.
 
 ## Getting Started
